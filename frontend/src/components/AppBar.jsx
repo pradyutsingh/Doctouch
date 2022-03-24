@@ -106,14 +106,26 @@ const ResponsiveAppBar = () => {
               </MenuItem>
             </Menu>
           </Box>
-          <Typography
-            variant="h5"
+          {/* <Link
+            href="/"
+            underline="none"
+            variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
             DOCTOUCH
-          </Typography>
+          </Link> */}
+
+          {userInfo ? <Link
+            href="/dashboard"
+            underline="none"
+            variant="h6"
+            noWrap
+            component="div"
+          >
+            DASHBOARD
+          </Link>: <></>}
           {userInfo ? (<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={logoutHandler}

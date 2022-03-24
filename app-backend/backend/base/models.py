@@ -11,7 +11,6 @@ class Patients(models.Model):
     patient_phone = models.CharField(max_length=11)
     patient_gender = models.CharField(max_length=6)
     patient_status = models.CharField(max_length=10)
-    request_user_name = models.CharField(max_length=100)
     disease = models.CharField(max_length=50)
 
     def __str__(self):
