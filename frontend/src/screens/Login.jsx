@@ -8,8 +8,6 @@ import {
   Link,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { login } from "../actions/userActions";
@@ -44,7 +42,8 @@ const Login = ({ location, history }) => {
   const btnstyle = { margin: "8px 0" };
 
   return (
-    <Grid>  
+    <>
+        <Grid>  
       <Paper elevation={10} style={paperStyle}>
         <Grid align="center">
           <Avatar style={avatarStyle}>
@@ -87,6 +86,8 @@ const Login = ({ location, history }) => {
         </Typography>
       </Paper>
     </Grid>
+    </>
+
   );
 };
 

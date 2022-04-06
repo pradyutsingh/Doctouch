@@ -1,11 +1,13 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from sklearn.preprocessing import LabelEncoder
 import pickle
 from rest_framework.decorators import api_view
 import os
 from base.apps import BaseConfig
 from rest_framework.response import Response
-# from base.models import Patients
+from base.models import Patient
+from django.core import serializers
+from django.http import HttpResponse
 
 
 def load_encoder(save_path):
@@ -14,6 +16,13 @@ def load_encoder(save_path):
     pkl_file.close()
     return encoder
 
+
+@api_view(["GET"])
+def getHeartPatients(request):
+    requser = request.user
+    qs = Patient.objects.all().filter(user = requser).exclude(patient_status = "Safe").filter(disease = "Heart")
+    data = list(qs.values())
+    return JsonResponse(data, safe=False)
 
 @api_view(["POST"])
 def predictHeartCondition(request):
@@ -68,10 +77,15 @@ def predictHeartCondition(request):
     gender_save = "Male" if Sex == "M" else "Female"
     status_save = "Safe" if pred == 1 else "Unsafe"
 
-    # patient_model = Patients(
-    #     patient_name=PatientName, patient_age=Age, patient_phone=PhoneNum, 
-    #     patient_gender=gender_save, patient_status=status_save, )
-    
-    # heart_model.save()
+
+    patient = Patient.objects.create(
+        user = user,
+        patient_name = PatientName,
+        patient_age = Age,
+        patient_phone = PhoneNum,
+        patient_gender =gender_save,
+        patient_status = status_save,
+        disease = "Heart" if status_save == "Unsafe" else "None"
+    )
     
     return Response(response_dict, status=200)

@@ -23,6 +23,7 @@ const ResponsiveAppBar = () => {
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(logout());
+    routeChangeHome();
   };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,25 +43,41 @@ const ResponsiveAppBar = () => {
     history.push(path);
   };
 
+  
+  const routeChangeHome = () => {
+    let path = "/";
+    history.push(path);
+  };
+
   const routeChangeRegister = () => {
     let path = "/register";
     history.push(path);
   };
 
+
+  const routeChangeDashboard = () => {
+    let path = "/dashboard";
+    history.push(path);
+  };
   return (
-    <AppBar position="static" style={{ background: '#2E3B55' }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Link
-            href="/"
-            underline="none"
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            DOCTOUCH
-          </Link>
+    <AppBar position="static" style={{ background: '#2F2FA2' }}>
+      <Container maxWidth="l">
+        <Toolbar       
+        sx={{
+          height : 36
+        }}>
+        <Button
+              onClick={routeChangeHome}
+              sx={{
+                my: 2,
+                color: "#F64C72",
+                display: "block",
+                fontWeight: "bold",
+                fontSize: 25
+              }}
+            >
+              DOCTOUCH
+            </Button>
 
           <Box
             sx={{
@@ -106,26 +123,24 @@ const ResponsiveAppBar = () => {
               </MenuItem>
             </Menu>
           </Box>
-          {/* <Link
-            href="/"
-            underline="none"
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            DOCTOUCH
-          </Link> */}
 
-          {userInfo ? <Link
-            href="/dashboard"
-            underline="none"
-            variant="h6"
-            noWrap
-            component="div"
-          >
-            DASHBOARD
-          </Link>: <></>}
+          {userInfo ? 
+
+         (
+            <Button
+              onClick={routeChangeDashboard}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                fontWeight: "bold",
+                fontSize: 15
+              }}
+            >
+              DASHBOARD
+            </Button>
+          )
+          : <></>}
           {userInfo ? (<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={logoutHandler}
@@ -134,6 +149,7 @@ const ResponsiveAppBar = () => {
                 color: "white",
                 display: "block",
                 fontWeight: "bold",
+                fontSize: 15
               }}
             >
               LOGOUT
@@ -147,6 +163,7 @@ const ResponsiveAppBar = () => {
                 color: "white",
                 display: "block",
                 fontWeight: "bold",
+                fontSize: 15
               }}
             >
               LOGIN
@@ -158,6 +175,8 @@ const ResponsiveAppBar = () => {
                 color: "white",
                 display: "block",
                 fontWeight: "bold",
+                fontSize: 15
+
               }}
             >
               REGISTER
@@ -169,3 +188,5 @@ const ResponsiveAppBar = () => {
   );
 };
 export default ResponsiveAppBar;
+
+

@@ -18,6 +18,7 @@ function Dashboard() {
               description="People with cardiovascular disease or who are at high cardiovascular risk 
           need early detection and management wherein a machine learning model can be of great help."
               nextPage="/heart"
+              tablePage="/heart/patients"
             />
           </Box>
         </Grid>
@@ -30,6 +31,7 @@ function Dashboard() {
               description="Diabetes is a disease that occurs when your blood glucose, 
           also called blood sugar, is too high."
               nextPage="/diabetes"
+              tablePage="/diabetes/patients"
             />
           </Box>
         </Grid>

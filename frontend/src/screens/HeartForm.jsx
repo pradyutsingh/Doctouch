@@ -4,6 +4,7 @@ import { Form, useForm } from "../components/useForm";
 import Input from "../components/controls/Input";
 import Controls from "../components/controls/Controls";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +71,8 @@ const initialValues = {
 
 function HeartForm() {
   const history = useHistory();
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const axios = require("axios");
   // const [values, setValues] = useState(initialValues);
   const { values, setValues, handleInputChange } = useForm(initialValues);
@@ -104,15 +106,14 @@ function HeartForm() {
         ["MaxHR"]: values["MaxHR"] * 1,
       });
       console.log(values);
-      let response = await axios.post("/api/heart/predict/", values);
-      // axios
-      //   .post("/api/heart/predict/", values)
-      //   .then(function (response) {
-      //     data = response.data;
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
+      const config = {
+        headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`
+        }
+      }
+      let response = await axios.post("/api/heart/predict/", values, config);
+
       if (response.status === 200) {
         if (response.data["Condition"] === 0) {
           routePush("/safe");
@@ -120,19 +121,11 @@ function HeartForm() {
           routePush("/unsafe");
         }
       } else {
+
+        //TODO : Handle this 
         console.log("error");
       }
-      // if (response.status == 400) {
-      //   alert("Error occured");
-      // } else {
-      //   data = response.data;
-      //   if(data["Condition"] == 0){
-      //     routePush("/safe");
-      //   }else{
-      //     routePush("/unsafe");
-      //   }
-      // }
-      // console.log(res);
+
     }
   }
 

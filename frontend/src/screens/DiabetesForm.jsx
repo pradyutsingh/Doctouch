@@ -4,6 +4,8 @@ import { Form, useForm } from "../components/useForm";
 import Input from "../components/controls/Input";
 import Controls from "../components/controls/Controls";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const genderItems = [
+  { id: "M", title: "Male" },
+  { id: "F", title: "Female" },
+];
+
 const initialValues = {
   PatientName: "",
   PhoneNum: "",
@@ -29,11 +36,13 @@ const initialValues = {
   BMI: 0,
   DiabetesPedigreeFunction: 0,
   Age: 0,
+  Sex: "M"
 };
 
 function DiabetesForm() {
   const history = useHistory();
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const axios = require("axios");
   // const [values, setValues] = useState(initialValues);
   const { values, setValues, handleInputChange } = useForm(initialValues);
@@ -71,7 +80,15 @@ function DiabetesForm() {
         ["Age"]: values["Age"] * 1,
       });
       console.log(values);
-      let response = await axios.post("/api/diabetes/predict/", values);
+
+      const config = {
+        headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`
+        }
+      }
+
+      let response = await axios.post("/api/diabetes/predict/", values, config);
 
       if (response.status === 200) {
         if (response.data["Condition"] === 0) {
@@ -152,6 +169,13 @@ function DiabetesForm() {
               label="Age"
               value={values.Age}
               onChange={handleInputChange}
+            />
+                        <Controls.RadioGroup
+              name="Sex"
+              label="Gender"
+              value={values.Sex}
+              onChange={handleInputChange}
+              items={genderItems}
             />
           </Grid>
           <Controls.Button
